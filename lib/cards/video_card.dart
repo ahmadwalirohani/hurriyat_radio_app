@@ -1,0 +1,159 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:hurriyat_radio/models/radio_program_model.dart';
+import 'package:hurriyat_radio/utils/cached_image.dart';
+import 'package:hurriyat_radio/utils/next_screen.dart';
+import 'package:hurriyat_radio/widgets/video_icon.dart';
+
+class VideoCard extends StatelessWidget {
+  final RadioProgramModel d;
+  final heroTag;
+  const VideoCard({Key? key, required this.d, required this.heroTag})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+        height: 250,
+        margin: EdgeInsets.all(15),
+        child: Stack(
+          children: <Widget>[
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Theme.of(context).shadowColor,
+                            blurRadius: 10,
+                            offset: Offset(0, 3))
+                      ]),
+                  child: Hero(
+                      tag: heroTag,
+                      child: CustomCacheImage(imageUrl: d.imageURL, radius: 5)),
+                ),
+                // Add the YouTube icon in the middle of the card, red in color
+                Positioned(
+                  top: 50, // Adjust this to position it above the bottom widget
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/video.png', // Path to your YouTube icon
+                      width: 80, // Adjust the size as needed
+                      height: 80,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 5),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
+                      height: 30,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.deepPurpleAccent.withOpacity(0.7)),
+                      child: Text(
+                        d.host!,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 6, bottom: 6),
+                        height: 30,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.black45),
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.remove_red_eye_sharp,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              d.views.toString(),
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        )),
+                    SizedBox(
+                      width: 10,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  padding:
+                      EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 15),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(205, 0, 0, 0),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(5),
+                          bottomRight: Radius.circular(5))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        d.title!,
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Icon(CupertinoIcons.person,
+                              size: 16, color: Colors.white),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(d.user_name!,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 13))
+                        ],
+                      )
+                    ],
+                  ),
+                ))
+          ],
+        ),
+      ),
+      onTap: () => navigateToVideoDetailsScreen(context, d, heroTag),
+    );
+  }
+}
