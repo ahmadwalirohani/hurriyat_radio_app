@@ -1,4 +1,4 @@
-package com.hurriyat.hurriyat_radio
+package com.hurriyat.radio
 
 import io.flutter.embedding.android.FlutterActivity
 
